@@ -1,0 +1,13 @@
+#+TITLE:My dotfiles
+#+AUTHOR:Joel Grunbaum
+
+Pretty straightforward dotfiles for my programs.
+This is pretty much only for the programs where I have changed the dotfiles or they require generated ones.
+There is also my Aspell dictionary, which should be periodically updated.
+
+My Emacs config is linked to from here to its own repository.
+I would suggest making sure it is the latest version if you choose to use it.
+
+The dotfiles are managed using GNU Stow and can be restored using make.
+Just use ~make home~ to set up the files.
+Credit to Peter Zuger for the idea, his dotfiles can be found [[https://gitlab.com/peterzuger/dotfiles][here]].
