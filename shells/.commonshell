@@ -1,0 +1,19 @@
+#aliases
+alias ls="ls --color=auto"
+alias l="ls -laF"
+alias scoff="xset dpms force off"
+alias grep="grep --color=always"
+alias less='less -r'
+alias stats="find . -type f -printf '%f\n' | sed -r -n 's/.+(\..*)$/\1/p' | sort | uniq -c"
+
+export EDITOR=/usr/bin/vim
+
+#default wine prefix
+export WINEPREFIX=/home/joel/.wine/Games/
+export STEAM_COMPAT_DATA_PATH=$HOME/proton
+
+export LIBVA_DRIVER_NAME=iHD
+
+# add to path
+export PATH=$PATH:~/.local/bin
+PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
