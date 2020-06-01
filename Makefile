@@ -17,7 +17,12 @@ INSTALL_TARGETS   = $(TARGETS)
 UNINSTALL_TARGETS = $(TARGETS:=-uninstall)
 
 # List of all applications with stored dotfiles
-CONFIGS = aspell emacs git libinput-gestures mailcap mpd ncmpcpp rtv shells wallpaper-reddit zsh
+SHELLS = bash zsh all-shells
+UTILS = emacs git aspell
+FUN = mpd ncmpcpp mailcap rtv
+DESKTOP = libinput-gestures wallpaper-reddit
+
+CONFIGS = $(SHELLS) $(UTILS) $(FUN) $(DESKTOP)
 
 all: help
 
@@ -28,6 +33,30 @@ $(CONFIGS):
 .PHONY: $(CONFIGS:=-del)
 $(CONFIGS:=-del):
 	$(STOW) --delete -t $(HOME) $(@:-del=)
+
+.PHONY: shells
+shells: $(SHELLS)
+
+.PHONY: shells-uninstall
+shells-uninstall: $(SHELLS:=-del)
+
+.PHONY: utils
+utils: $(UTILS)
+
+.PHONY: utils-uninstall
+utils-uninstall: $(UTILS:=-del)
+
+.PHONY: fun
+fun: $(FUN)
+
+.PHONY: fun-uninstall
+fun-uninstall: $(FUN:=-del)
+
+.PHONY: desktop
+desktop: $(DESKTOP)
+
+.PHONY: desktop-uninstall
+desktop-uninstall: $(DESKTOP:=-del)
 
 .PHONY: $(INSTALL_TARGETS)
 $(INSTALL_TARGETS): $(CONFIGS)
@@ -40,3 +69,7 @@ help:
 	$(ECHO) 'use make "target"'
 	$(ECHO) 'targets:'
 	$(ECHO)	'	home(-uninstall)'
+	$(ECHO) '	shells(-uninstall)'
+	$(ECHO) '	utils(-uninstall)'
+	$(ECHO) '	fun(-uninstall)'
+	$(ECHO) '	desktop(-uninstall)'

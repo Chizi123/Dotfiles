@@ -1,10 +1,11 @@
-personal_ws-1.1 en 20 
+personal_ws-1.1 en 22 
 DNS
 FPGA
 GPIO
 Grunbaum
 SODIMM
 config
+dotfiles
 fortifiable
 impedances
 inductor
@@ -12,6 +13,7 @@ inductor's
 inductors
 invariance
 journaling
+makefile
 math
 optimality
 preconfigured

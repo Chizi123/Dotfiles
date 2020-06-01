@@ -10,4 +10,6 @@ I would suggest making sure it is the latest version if you choose to use it.
 
 The dotfiles are managed using GNU Stow and can be restored using make.
 Just use ~make home~ to set up the files.
+If only part of the dotfiles are wanted, they are grouped into various parts I think make sense.
+Have a look at the makefile for the groups.
 Credit to Peter Zuger for the idea, his dotfiles can be found [[https://gitlab.com/peterzuger/dotfiles][here]].
