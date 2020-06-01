@@ -9,11 +9,11 @@ alias stats="find . -type f -printf '%f\n' | sed -r -n 's/.+(\..*)$/\1/p' | sort
 export EDITOR=/usr/bin/vim
 
 #default wine prefix
-export WINEPREFIX=/home/joel/.wine/Games/
+export WINEPREFIX=$HOME/.wine/Games/
 export STEAM_COMPAT_DATA_PATH=$HOME/proton
 
 export LIBVA_DRIVER_NAME=iHD
 
 # add to path
 export PATH=$PATH:~/.local/bin
-PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
+[ -r /usr/bin/ruby ] && PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"

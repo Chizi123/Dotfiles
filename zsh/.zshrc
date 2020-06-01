@@ -12,9 +12,9 @@ setopt autocd extendedglob correct_all # Automatically cd without cd and expand 
 unsetopt beep notify # Turn off terminal beeps
 bindkey -e #Emacs mode
 
-# common aliases
+# common shell options
 source ~/.commonshell
-source /usr/share/doc/pkgfile/command-not-found.zsh
+[ -f /usr/share/doc/pkgfile/command-not-found.zsh ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Make the delete key work normally
 bindkey '^[[3~' delete-char
