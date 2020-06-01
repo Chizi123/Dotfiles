@@ -8,7 +8,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 # ZSH options
-setopt autocd extendedglob # Automatically cd without cd and expand globs
+setopt autocd extendedglob correct_all # Automatically cd without cd and expand globs
 unsetopt beep notify # Turn off terminal beeps
 bindkey -e #Emacs mode
 
