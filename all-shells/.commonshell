@@ -6,7 +6,8 @@ alias grep="grep --color=always"
 alias less='less -r'
 alias stats="find . -type f -printf '%f\n' | sed -r -n 's/.+(\..*)$/\1/p' | sort | uniq -c"
 
-export EDITOR=/usr/bin/vim
+export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
+alias ec=$EDITOR
 
 #default wine prefix
 export WINEPREFIX=$HOME/.wine/Games/
