@@ -1,10 +1,13 @@
-personal_ws-1.1 en 23 
+personal_ws-1.1 en 28 
+Adapter
 DNS
 FPGA
 GPIO
 Grunbaum
 SODIMM
 abortifacient
+adapter
+adapters
 config
 dotfiles
 fortifiable
@@ -17,6 +20,8 @@ journaling
 makefile
 math
 optimality
+polymorphically
+polymorphism
 preconfigured
 retransmission
 siemens
