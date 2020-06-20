@@ -6,6 +6,8 @@ alias grep="grep --color=always"
 alias less='less -r'
 alias stats="find . -type f -printf '%f\n' | sed -r -n 's/.+(\..*)$/\1/p' | sort | uniq -c"
 
+alias pip-upgrade="pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
+
 export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
 alias ec=$EDITOR
 
