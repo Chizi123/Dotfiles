@@ -39,6 +39,14 @@ emacs:
 	git submodule update --init
 	$(STOW) -t $(HOME) $@
 
+.PHONY: termux
+termux: shells
+	$(STOW) -t $(HOME) $@
+
+.PHONY: termux-uninstall
+termux-uninstall: shells-uninstall
+	$(STOW) --delete -t $(HOME) $(@:-uninstall=)
+
 .PHONY: shells
 shells: $(SHELLS)
 
@@ -78,3 +86,4 @@ help:
 	$(ECHO) '	utils(-uninstall)'
 	$(ECHO) '	fun(-uninstall)'
 	$(ECHO) '	desktop(-uninstall)'
+	$(ECHO) '	termux(-uninstall)'

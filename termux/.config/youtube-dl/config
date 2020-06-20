@@ -1,0 +1,3 @@
+--no-mtime
+-o ~/storage/downloads/Youtube/%(title)s.%(ext)s
+-f "best[height<=480]"
