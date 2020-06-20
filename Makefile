@@ -34,6 +34,11 @@ $(CONFIGS):
 $(CONFIGS:=-del):
 	$(STOW) --delete -t $(HOME) $(@:-del=)
 
+.PHONY: emacs
+emacs:
+	git submodule update --init
+	$(STOW) -t $(HOME) $@
+
 .PHONY: shells
 shells: $(SHELLS)
 
