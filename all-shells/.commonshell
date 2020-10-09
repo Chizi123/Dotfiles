@@ -8,8 +8,9 @@ alias stats="find . -type f -printf '%f\n' | sed -r -n 's/.+(\..*)$/\1/p' | sort
 
 alias pip-upgrade="python -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python -m pip install -U"
 
-export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
-alias ec=$EDITOR
+#export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
+#alias ec=$EDITOR
+export EDITOR="/usr/bin/vim"
 
 #default wine prefix
 export WINEPREFIX=$HOME/.wine/Games/
