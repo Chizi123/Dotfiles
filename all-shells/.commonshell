@@ -1,5 +1,5 @@
 #aliases
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [ -z "${OSTYPE##*darwin*}" ]; then
 	#Mac OSX specific versions
 	alias ls="ls -G"
 else
