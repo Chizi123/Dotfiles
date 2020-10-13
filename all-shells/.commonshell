@@ -1,10 +1,16 @@
 #aliases
-alias ls="ls --color=auto"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	#Mac OSX specific versions
+	alias ls="ls -G"
+else
+	#Linux + others as default
+	alias ls="ls --color=auto"
+	alias scoff="xset dpms force off"
+fi
 alias l="ls -laF"
-alias scoff="xset dpms force off"
 alias grep="grep --color=always"
 alias less='less -r'
-alias stats="find . -type f -printf '%f\n' | sed -r -n 's/.+(\..*)$/\1/p' | sort | uniq -c"
+alias stats="find . -type f -print | sed -E -n 's/.+(\..*)$/\1/p' | sort | uniq -c | sort"
 
 alias pip-upgrade="python -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python -m pip install -U"
 
