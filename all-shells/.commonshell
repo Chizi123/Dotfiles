@@ -10,9 +10,7 @@ fi
 alias l="ls -laF"
 alias grep="grep --color=always"
 alias less='less -r'
-function stats {
-	find ${1:-'.'} -type f -print | sed -E -n 's/.+(\..*)$/\1/pi' | sort | uniq -c | sort -g
-}
+function stats() {find ${1:-'.'} -type f -print | sed -E -n 's/.+(\..*)$/\1/pi' | sort | uniq -c | sort -g}
 
 alias pip-upgrade="python -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python -m pip install -U"
 
