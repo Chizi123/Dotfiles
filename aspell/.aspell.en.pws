@@ -1,4 +1,4 @@
-personal_ws-1.1 en 37 
+personal_ws-1.1 en 39 
 Adapter
 DNS
 FPGA
@@ -10,6 +10,7 @@ achiral
 adapter
 adapters
 chiral
+conductivities
 config
 diagonalizable
 dotfiles
@@ -21,6 +22,7 @@ inductors
 invariance
 invertible
 journaling
+linearised
 makefile
 math
 optimality
