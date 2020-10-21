@@ -2,6 +2,7 @@
 if [ -z "${OSTYPE##*darwin*}" ]; then
 	#Mac OSX specific versions
 	alias ls="ls -G"
+	[ -d /usr/local/opt/llvm/bin ] && PATH="$PATH:/usr/local/opt/llvm/bin"
 else
 	#Linux + others as default
 	alias ls="ls --color=auto"
@@ -18,13 +19,11 @@ alias pip-upgrade="python -m pip list --outdated --format=freeze | grep -v '^\-e
 
 #export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
 #alias ec=$EDITOR
-export EDITOR="/usr/bin/vim"
+[ -n "$(whereis vim)" ] && export EDITOR="/usr/bin/vim"
 
 #default wine prefix
-export WINEPREFIX=$HOME/.wine/Games/
-export STEAM_COMPAT_DATA_PATH=$HOME/proton
-
-export LIBVA_DRIVER_NAME=iHD
+[ -n "$(whereis wine)" ] && export WINEPREFIX=$HOME/.wine/Games/
+[ -n "$(whereis steam)" ] && export STEAM_COMPAT_DATA_PATH=$HOME/proton
 
 # add to path
 export PATH=$PATH:~/.local/bin
