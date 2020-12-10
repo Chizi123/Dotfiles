@@ -20,7 +20,7 @@ UNINSTALL_TARGETS = $(TARGETS:=-uninstall)
 SHELLS = bash zsh all-shells
 UTILS = emacs git aspell
 FUN = mpd ncmpcpp mailcap rtv
-DESKTOP = libinput-gestures wallpaper-reddit
+DESKTOP = libinput-gestures reddit-wallpaper-fetcher
 
 CONFIGS = $(SHELLS) $(UTILS) $(FUN) $(DESKTOP)
 
