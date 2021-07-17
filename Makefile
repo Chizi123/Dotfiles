@@ -21,8 +21,9 @@ SHELLS = bash zsh all-shells
 UTILS = emacs git aspell
 FUN = mpd ncmpcpp mailcap rtv
 DESKTOP = libinput-gestures reddit-wallpaper-fetcher
+ARCH = paru
 
-CONFIGS = $(SHELLS) $(UTILS) $(FUN) $(DESKTOP)
+CONFIGS = $(SHELLS) $(UTILS) $(FUN) $(DESKTOP) $(ARCH)
 
 all: help
 
@@ -70,6 +71,12 @@ desktop: $(DESKTOP)
 
 .PHONY: desktop-uninstall
 desktop-uninstall: $(DESKTOP:=-del)
+
+.PHONY: arch
+arch: $(ARCH)
+
+.PHONY: arch-uninstall
+arch-uninstall: $(ARCH:=-del)
 
 .PHONY: $(INSTALL_TARGETS)
 $(INSTALL_TARGETS): $(CONFIGS)
