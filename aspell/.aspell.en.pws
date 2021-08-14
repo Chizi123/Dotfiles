@@ -1,4 +1,4 @@
-personal_ws-1.1 en 39 
+personal_ws-1.1 en 48 
 Adapter
 DNS
 FPGA
@@ -9,23 +9,32 @@ abortifacient
 achiral
 adapter
 adapters
+bandpass
+baseband
 chiral
 conductivities
 config
 diagonalizable
 dotfiles
+exponentials
 fortifiable
+highpass
 impedances
 inductor
 inductor's
 inductors
 invariance
 invertible
+iteratively
+jacobian
 journaling
 linearised
+lowpass
 makefile
 math
 optimality
+orthonormal
+phasor
 polymorphically
 polymorphism
 preconfigured
