@@ -1,9 +1,10 @@
-personal_ws-1.1 en 48 
+personal_ws-1.1 en 51
 Adapter
 DNS
 FPGA
 GPIO
 Grunbaum
+Nyquist
 SODIMM
 abortifacient
 achiral
@@ -11,12 +12,14 @@ adapter
 adapters
 bandpass
 baseband
+additivity
 chiral
 conductivities
 config
 diagonalizable
 dotfiles
 exponentials
+electromechanical
 fortifiable
 highpass
 impedances
