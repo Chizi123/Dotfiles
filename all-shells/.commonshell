@@ -36,3 +36,6 @@ if [ -n "$(uname -a | grep -i 'microsoft')" ]; then
 	export DISPLAY=$(ip route | awk '{print $3; exit}'):0
 	export LIBGL_ALWAYS_INDIRECT=1
 fi
+
+# Update dotfiles
+(git -C ~/.dotfiles pull &) &>/dev/null
