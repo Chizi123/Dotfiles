@@ -39,3 +39,4 @@ fi
 
 # Update dotfiles
 (git -C ~/.dotfiles pull &) &>/dev/null
+[ -d ~/.emacs.d ] && (git -C ~/.emacs.d pull &) &>/dev/null
