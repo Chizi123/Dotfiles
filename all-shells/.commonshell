@@ -30,3 +30,7 @@ alias ec="/usr/bin/emacsclient -nw -a /usr/bin/vim"
 export PATH=$PATH:~/.local/bin
 [ -r /usr/bin/ruby ] && PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
 [ -d ~/.cargo ] && PATH="$PATH:$HOME/.cargo/bin"
+
+# Update dotfiles
+(git -C ~/.dotfiles pull &) &>/dev/null
+[ -d ~/.emacs.d ] && (git -C ~/.emacs.d pull &) &>/dev/null
