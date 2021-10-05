@@ -30,9 +30,3 @@ alias ec="/usr/bin/emacsclient -nw -a /usr/bin/vim"
 export PATH=$PATH:~/.local/bin
 [ -r /usr/bin/ruby ] && PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
 [ -d ~/.cargo ] && PATH="$PATH:$HOME/.cargo/bin"
-
-# wsl display settings
-if [ -n "$(uname -a | grep -i 'microsoft')" ]; then
-	export DISPLAY=$(ip route | awk '{print $3; exit}'):0
-	export LIBGL_ALWAYS_INDIRECT=1
-fi
