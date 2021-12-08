@@ -40,6 +40,12 @@ emacs:
 	git submodule update --init
 	$(STOW) -t $(HOME) $@
 
+.PHONY: zsh
+zsh:
+	mkdir ~/.zsh
+	git clone https://github.com/zsh-users/antigen.git ~/.zsh/antigen
+	$(STOW) -t $(HOME) $@
+
 .PHONY: termux
 termux: shells
 	$(STOW) -t $(HOME) $@

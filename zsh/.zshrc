@@ -2,6 +2,15 @@
 autoload -U colors && colors	# Load colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%1~%{$fg[red]%}]%(?:%{$fg[white]%}$:%{$fs_bold[red]%}<%?>$)%{$reset_color%}%b "
 
+# Git prompt
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+RPROMPT=\$vcs_info_msg_0_
+zstyle ':vcs_info:git:*' formats "%F{240}git:(%b)"
+zstyle ':vcs_info:*' enable git
+
 # History files
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -14,6 +23,8 @@ bindkey -e #Emacs mode
 
 # common shell options
 source ~/.commonshell
+
+# Command not found. Works with pkgfile in Arch
 [ -f /usr/share/doc/pkgfile/command-not-found.zsh ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Make the delete key work normally
@@ -42,17 +53,16 @@ zstyle :compinstall filename '/home/joel/.zshrc'
 autoload -Uz compinit
 compinit
 
-# Syntax highlighing
-[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Plugins with antigen
+if [ -f ~/.zsh/antigen/bin/antigen.zsh ]; then
+    ADOTDIR=~/.zsh
+    _ANTIGEN_INSTALL_DIR=~/.zsh/antigen
+    # ANTIGEN_LOG=~/log
+    source ~/.zsh/antigen/bin/antigen.zsh
 
-# Auto-suggestions
-[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    antigen bundle zsh-users/zsh-syntax-highlighting
+    antigen bundle zsh-users/zsh-autosuggestions
+    antigen bundle zsh-users/zsh-completions
 
-# Git prompt
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-RPROMPT=\$vcs_info_msg_0_
-zstyle ':vcs_info:git:*' formats "%F{240}git:(%b)" #'%F{240}(%b)%r%f'
-zstyle ':vcs_info:*' enable git
+    antigen apply
+fi
