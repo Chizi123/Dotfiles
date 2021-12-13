@@ -37,5 +37,8 @@ if [ -n "$(uname -a | grep -i 'microsoft')" ]; then
 	export LIBGL_ALWAYS_INDIRECT=1
 fi
 
+# acme.sh
+[ -f "${HOME}/.acme.sh/acme.sh.env" ] && source ~/.acme.sh/acme.sh.env
+
 # Update dotfiles
 (git -C ~/.dotfiles pull &) &>/dev/null
