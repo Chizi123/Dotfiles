@@ -3,6 +3,9 @@ if [ -z "${OSTYPE##*darwin*}" ]; then
 	#Mac OSX specific versions
 	alias ls="ls -G"
 	[ -d /usr/local/opt/llvm/bin ] && PATH="$PATH:/usr/local/opt/llvm/bin"
+	[ -d "$(brew --prefix coreutils)/libexec/gnubin" ] && export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+	[ -d "$(brew --prefix grep)/libexec/gnubin" ] && export PATH="$(brew --prefix grep)/libexec/gnubin:$PATH"
+	[ -d "$(brew --prefix findutils)/libexec/gnubin" ] && export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
 else
 	#Linux + others as default
 	alias ls="ls --color=auto"
