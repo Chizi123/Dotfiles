@@ -19,8 +19,8 @@ alias pip-upgrade="python -m pip list --outdated --format=freeze | grep -v '^\-e
 
 #export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
 #alias ec=$EDITOR
-alias ec="/usr/bin/emacsclient -nw -a /usr/bin/vim"
-[ -n "$(whereis vim)" ] && export EDITOR="/usr/bin/vim"
+alias ec="/usr/bin/emacsclient -nw -a $(which vim)"
+[ -n "$(which vim)" ] && export EDITOR="$(which vim)"
 
 #default wine prefix
 [ -n "$(whereis wine)" ] && export WINEPREFIX=$HOME/.wine/Games/
