@@ -43,7 +43,7 @@ emacs:
 .PHONY: zsh
 zsh:
 	mkdir -p ~/.zsh
-	[ -d "${HOME}/.zsh/antigen" ] || git clone https://github.com/zsh-users/antigen.git ~/.zsh/antigen
+	git submodule update --init
 	$(STOW) -t $(HOME) $@
 
 .PHONY: termux
