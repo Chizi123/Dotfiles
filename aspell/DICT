@@ -1,2 +1,2 @@
 FILES="aspell.en.prepl aspell.en.pws"
-LOCATIONS=".aspell.en.prepl .aspell.en.pws"
+LOCATIONS="${HOME}/.aspell.en.prepl ${HOME}/.aspell.en.pws"
