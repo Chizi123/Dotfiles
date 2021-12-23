@@ -55,12 +55,19 @@ remove_links() {
 }
 
 handle_package() {
-if [ -d "$1" ]; then
+    echo $1
+    if [ -d "$1" ]; then
+	unset DEPS
+	eval $(grep "DEPS=" $1/DICT)
+	for i in $DEPS; do
+	    (handle_package $i $2)
+	done
 	(cd "$1"; $2)
     else
 	echo "No configuration found for $i"
     fi
 }
+
 usage() {
     echo "Install dotfiles with symlinks"
     echo "Usage with -h|--help"
@@ -87,31 +94,6 @@ while [ -n "$1" ]; do
       shift
 done
 
-# case "$1" in
-#     -*) echo "Only one argument allowed"; exit;;
-# esac
-
-# while [ -n "$1" ]; do
-#     PACKAGES="$PACKAGES $1"
-#     shift
-# done
-
-# if [ "$INSTALL" = "1" ] && [ "$REMOVE" = "0" ]; then
-#     FUNCTION="install_links"
-# elif [ "$INSTALL" = "0" ] && [ "$REMOVE" = "1" ]; then
-#     FUNCTION="remove_links"
-# else
-#     echo "Need to specify install or removal of configs"
-#     exit 1
-# fi
-
-# for i in $PACKAGES; do
-#     if [ -d "$i" ]; then
-# 	(cd "$i"; $FUNCTION)
-#     else
-# 	echo "No configuration found for $i"
-#     fi
-# done
-
-# (cd $1; install_links)
-# (cd $1; remove_links)
+while [ -n "$1" ]; do
+    handle_package "$1" "$([ \"$INSTALL\" = \"1\" ] && echo install || echo remove)_links"
+done
