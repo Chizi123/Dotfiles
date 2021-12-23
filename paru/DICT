@@ -1,0 +1,2 @@
+FILES="paru.conf"
+LOCATIONS="${HOME}/.config/paru/paru.conf"

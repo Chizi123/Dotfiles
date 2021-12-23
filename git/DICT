@@ -1,0 +1,2 @@
+FILES="gitconfig"
+LOCATIONS="${HOME}/.gitconfig"

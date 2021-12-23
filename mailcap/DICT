@@ -1,0 +1,2 @@
+FILES="mailcap"
+LOCATIONS="${HOME}/.mailcap"

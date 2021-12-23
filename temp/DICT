@@ -1,0 +1,8 @@
+DEPS="t a b c"
+FILES="aaa bbb"
+LOCATIONS="${HOME}/aaa ${HOME}/temp/a/b/c/bbb"
+# SUDO_FILES="ccc ddd"
+# SUDO_LOCATIONS="${HOME}/ccc ${HOME}/ddd"
+custom() {
+	 echo $1
+}

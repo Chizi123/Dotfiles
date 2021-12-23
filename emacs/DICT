@@ -1,0 +1,5 @@
+FILES="emacs.d emacs.service emacsclient.desktop"
+LOCATIONS="${HOME}/.emacs.d ${HOME}/.config/systemd/user/emacs.service ${HOME}/.local/share/applications/emacsclient.desktop"
+custom() {
+	 git submodule update --init
+}

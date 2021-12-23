@@ -1,0 +1,2 @@
+FILES="libinput-gestures.conf"
+LOCATIONS="${HOME}/.config/libinput-gestures.conf"

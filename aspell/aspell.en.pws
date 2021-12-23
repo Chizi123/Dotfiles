@@ -1,4 +1,4 @@
-personal_ws-1.1 en 52 
+personal_ws-1.1 en 54 
 Adapter
 DNS
 FPGA
@@ -11,6 +11,8 @@ achiral
 adapter
 adapters
 additivity
+asymptote
+asymptotes
 bandpass
 baseband
 capacitive

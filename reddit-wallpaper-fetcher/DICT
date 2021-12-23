@@ -1,0 +1,2 @@
+FILES="reddit-wallpaper-fetcher.conf"
+LOCATIONS="${HOME}/.config/reddit-wallpaper-fetcher.conf"

@@ -1,0 +1,2 @@
+FILES="commonshell"
+LOCATIONS="${HOME}/.commonshell"

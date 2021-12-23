@@ -1,0 +1,2 @@
+FILES="config"
+LOCATIONS="${HOME}/.ncmpcpp/config"

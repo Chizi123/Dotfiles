@@ -1,0 +1,2 @@
+DICT="termux-url-opener ytdl-config"
+LOCATIONS="${HOME}/bin/termux-url-opener ${HOME}/.config/youtube-dl/config ${HOME}/.termux/termux.properties"

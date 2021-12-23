@@ -1,0 +1,2 @@
+FILES="mpd.conf"
+LOCATIONS="${HOME}/.config/mpd/mpd.conf"

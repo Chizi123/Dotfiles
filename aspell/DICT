@@ -1,0 +1,2 @@
+FILES="aspell.en.prepl aspell.en.pws"
+LOCATIONS=".aspell.en.prepl .aspell.en.pws"

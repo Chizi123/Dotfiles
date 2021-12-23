@@ -1,0 +1,2 @@
+DICT="rtv.cfg"
+LOCATIONS="${HOME}/.config/rtv/rtv.cfg"

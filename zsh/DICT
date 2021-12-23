@@ -1,0 +1,6 @@
+DEPS="all-shells"
+FILES="zshrc p10k.zsh antigen"
+LOCATIONS="${HOME}/.zshrc ${HOME}/.zsh/p10k.zsh ${HOME}/.zsh/antigen"
+custom() {
+	git submodule update --init
+}
