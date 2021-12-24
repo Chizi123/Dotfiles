@@ -81,13 +81,15 @@ handle_package() {
     if [ -d "$1" ]; then
 	unset DEPS
 	eval $(grep "DEPS=" $1/DICT)
-	for i in $DEPS; do
-        if ! grep -q "$i" "$PACKAGE_CACHE"; then
-	        (handle_package $i $2)
-        fi
-	done
+    if [ "$INSTALL" = "1" ] || ([ "$INSTALL" = "0" ] && [ "$REMOVE_DEPS" = "1" ]); then
+	    for i in $DEPS; do
+            if ! grep -q "$i" "$PACKAGE_CACHE"; then
+	            (handle_package $i)
+            fi
+	    done
+    fi
     echo "$1" >> "$PACKAGE_CACHE"
-	(cd "$1"; $2)
+	(cd "$1"; "$([ \"$INSTALL\" = \"1\" ] && echo install || echo remove)_links")
     else
 	echo "No configuration found for $i"
     fi
@@ -107,6 +109,7 @@ usage() {
 
 INSTALL=1
 FORCE=0
+REMOVE_DEPS=0
 PACKAGE_CACHE=$(mktemp)
 DOTFILES_PATH="$(dirname $0)"
 
@@ -122,6 +125,7 @@ while [ -n "$1" ]; do
 	  -h|--help|"") usage; exit;;
 	  -i|--install) INSTALL=1;;
 	  -r|--remove) INSTALL=0;;
+      -d|--deps) REMOVE_DEPS=1;;
       -f|--force) FORCE=1;;
 	  --) shift; break;;
 	  -*) echo "Invalid argument"; usage; exit;;
@@ -131,7 +135,7 @@ while [ -n "$1" ]; do
 done
 
 while [ -n "$1" ]; do
-    handle_package "$1" "$([ \"$INSTALL\" = \"1\" ] && echo install || echo remove)_links"
+    handle_package "$1"
 done
 
 rm $PACKAGE_CACHE
