@@ -96,15 +96,16 @@ handle_package() {
 }
 
 usage() {
-    echo "Install dotfiles with symlinks"
-    echo "Usage with -h|--help"
-    echo "Install with -i|--install (default)"
-    echo "Remove with -r|--remove"
-    echo "Force install with -f|--force"
-    echo "Directories have the configurations for their programs/use cases"
-    echo "List all configurations to be installed in the command line"
-    echo "If there is a file at the install location, you will be prompted to change it"
-    echo "Example usage: $0 -i bash zsh"
+    cat << EOF
+USAGE
+    $(basename "$0") [options] configs... ([option] [configs])...
+
+OPTIONS
+    -h, --help          Display this help message
+    -i, --install       Install packages following this flag (default)
+    -r, --remove        Remove packages following this flag
+    -f, --force         Force install all packages following this flag
+EOF
 }
 
 INSTALL=1
@@ -123,13 +124,15 @@ fi
 while [ -n "$1" ]; do
       case "$1" in
 	  -h|--help|"") usage; exit;;
-	  -i|--install) INSTALL=1;;
-	  -r|--remove) INSTALL=0;;
-      -d|--deps) REMOVE_DEPS=1;;
+	  -i|--install) INSTALL=1; FORCE=0;;
       -f|--force) FORCE=1;;
+      -if|-fi) INSTALL=1; FORCE=1;;
+	  -r|--remove) INSTALL=0; REMOVE_DEPS=0;;
+      -d|--deps) REMOVE_DEPS=1;;
+      -rd|-dr) INSTALL=0; REMOVE_DEPS=1;;
 	  --) shift; break;;
 	  -*) echo "Invalid argument"; usage; exit;;
-	  *) handle_package "$1" "$([ \"$INSTALL\" = \"1\" ] && echo install || echo remove)_links";;
+	  *) handle_package "$1";; # "$([ \"$INSTALL\" = \"1\" ] && echo install || echo remove)_links";;
       esac
       shift
 done
