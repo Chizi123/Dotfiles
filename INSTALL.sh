@@ -1,48 +1,58 @@
 #!/bin/sh
 
+install_conflict() {
+    file="$1";
+    loc="$2";
+    if [ -n "$3" ]; then
+        SUPERUSER="sudo"
+    else
+        SUPERUSER="";
+    fi
+    while true; do
+        CHOICE="overwrite"
+        if [ -e "$loc" ] && [ "$FORCE" = "0" ]; then
+            echo "WARNING: \"$loc\" exists, (overwrite, change, nothing): "
+            read CHOICE
+        fi
+        case "$CHOICE" in
+            o|overwrite)
+	            dir=$(dirname "$loc")
+	            $SUPERUSER mkdir -p "$dir"
+	            $SUPERUSER ln -sf "$(pwd)/$file" "$loc"; break;;
+            c|change)
+                tmpfile=$(mktemp)
+                echo "$loc" >> "$tmpfile"
+                $EDITOR "$tmpfile"
+                loc=$(cat "$tmpfile")
+                rm "$tmpfile"
+                unset tmpfile;;
+            n|nothing)
+                break;;
+            *)
+                echo "INVALID CHOICE \"$CHOICE\", (overwrite, change, nothing)"
+                read CHOICE
+        esac
+    done
+
+}
+
 install_links() {
     . ./DICT
     if [ -n "$FILES" ]; then
 	for i in $(seq 1 "$(echo "$FILES" | wc -w)"); do
 	    file=$(echo "$FILES" | cut -d' ' -f "$i")
 	    loc=$(echo "$LOCATIONS" | cut -d' ' -f "$i")
-        while true; do
-            CHOICE="overwrite"
-            if [ -e "$loc" ] && [ "$FORCE" = "0" ]; then
-                echo "WARNING: \"$loc\" exists, (overwrite, change, nothing): "
-                read CHOICE
-            fi
-            case "$CHOICE" in
-                o|overwrite)
-	                dir=$(dirname "$loc")
-	                mkdir -p "$dir"
-	                ln -sf "$(pwd)/$file" "$loc"; break;;
-                c|change)
-                    tmpfile=$(mktemp)
-                    echo "$loc" >> "$tmpfile"
-                    $EDITOR "$tmpfile"
-                    loc=$(cat "$tmpfile")
-                    rm "$tmpfile"
-                    unset tmpfile;;
-                n|nothing)
-                    break;;
-                *)
-                    echo "INVALID CHOICE \"$CHOICE\", (overwrite, change, nothing)"
-                    read CHOICE
-            esac
-        done
+        install_conflict "$file" "$loc"
 	done
     fi
     if [ -n "$SUDO_FILES" ]; then
-	for i in $(seq 1 "$(echo "$SUDO_FILES" | wc -w)"); do
-	    file=$(echo "$SUDO_FILES" | cut -d' ' -f "$i")
-	    loc=$(echo "$SUDO_LOCATIONS" | cut -d' ' -f "$i")
-	    dir=$(echo "$loc" | rev | cut -d'/' -f2- | rev)
-	    sudo mkdir -p "$dir"
-	    sudo ln -sf "$(pwd)/$file" "$loc"
-	done
+	    for i in $(seq 1 "$(echo "$SUDO_FILES" | wc -w)"); do
+	        file=$(echo "$SUDO_FILES" | cut -d' ' -f "$i")
+	        loc=$(echo "$SUDO_LOCATIONS" | cut -d' ' -f "$i")
+            install_conflict "$file" "$loc" 1
+	    done
     fi
-    if type custom | grep -q "function" ; then
+    if type custom 2>/dev/null | grep -q "function" ; then
 	    custom install
     fi
 }
@@ -77,7 +87,6 @@ remove_links() {
 }
 
 handle_package() {
-    echo "$1"
     if [ -d "$1" ]; then
 	unset DEPS
 	eval "$(grep "DEPS=" "$1/DICT")"
@@ -88,6 +97,7 @@ handle_package() {
             fi
 	    done
     fi
+    echo "$1"
     echo "$1" >> "$PACKAGE_CACHE"
 	(cd "$1" || exit; "$([ "$INSTALL" = "1" ] && echo install || echo remove)_links")
     else
