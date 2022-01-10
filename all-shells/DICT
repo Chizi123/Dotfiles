@@ -1,2 +1,2 @@
-FILES="commonshell"
-LOCATIONS="${HOME}/.commonshell"
+FILES="commonshell screenrc"
+LOCATIONS="${HOME}/.commonshell ${HOME}/.screenrc"

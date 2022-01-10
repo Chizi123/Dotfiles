@@ -1,0 +1,8 @@
+# Allow colours
+term screen-256color
+
+# UTF8 by default
+defutf8 on
+
+# Automatically detach on hangup
+autodetach on
