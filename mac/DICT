@@ -1,0 +1,12 @@
+custom() {
+    defaults write NSGlobalDomain NSUserKeyEquivalents '{
+Copy = "^c";
+Cut = "^x";
+Paste = "^v";
+}'
+    defaults write com.google.Chrome NSUserKeyEquivalents '{
+"Close Tab" = "^w";
+"New Tab" = "^t";
+"Re-open Closed Tab" = "^$t";
+}'
+}
