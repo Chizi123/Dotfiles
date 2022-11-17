@@ -27,6 +27,7 @@ SAVEHIST=10000
 setopt autocd extendedglob correct_all # Automatically cd without cd and expand globs
 unsetopt beep notify # Turn off terminal beeps
 bindkey -e #Emacs mode
+ZDOTDIR=${HOME}/.zsh
 
 # common shell options
 source ~/.commonshell
@@ -61,18 +62,23 @@ autoload -Uz compinit
 compinit
 
 # Plugins with antigen
-if [ -f ~/.zsh/antigen/bin/antigen.zsh ]; then
+if [ -f ~/.zsh/antidote/antidote.zsh ]; then
     ADOTDIR=~/.zsh
-    _ANTIGEN_INSTALL_DIR=~/.zsh/antigen
-    # ANTIGEN_LOG=~/log
-    source ~/.zsh/antigen/bin/antigen.zsh
+    _ANTIGEN_INSTALL_DIR=~/.zsh/antidote
+    antidote_dir=${ZDOTDIR:-~}/antidote
+    plugins_txt=${ZDOTDIR:-~}/zsh_plugins.txt
+    static_file=${ZDOTDIR:-~}/zsh_plugins.zsh   # ANTIGEN_LOG=~/log
 
-    antigen bundle zsh-users/zsh-syntax-highlighting
-    antigen bundle zsh-users/zsh-autosuggestions
-    antigen bundle zsh-users/zsh-completions
-    antigen theme romkatv/powerlevel10k
-
-    antigen apply
+    if [[  ! $static_file -nt $plugins_txt ]]; then
+        (
+	    source ~/.zsh/antidote/antidote.zsh
+    	    [[ -e $plugins_txt ]] || touch $plugins_txt
+            antidote bundle <$plugins_txt >$static_file
+	)
+    fi
+    autoload -Uz $antidote_dir/functions/antidote
+    source $static_file
+    unset antidote_dir plugins_txt static_file
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

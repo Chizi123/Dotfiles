@@ -1,6 +1,6 @@
 DEPS="all-shells"
-FILES="zshrc p10k.zsh antigen zprofile"
-LOCATIONS="${HOME}/.zshrc ${HOME}/.zsh/p10k.zsh ${HOME}/.zsh/antigen ${HOME}/.zprofile"
+FILES="zshrc p10k.zsh antidote zprofile zsh_plugins.txt"
+LOCATIONS="${HOME}/.zshrc ${HOME}/.zsh/p10k.zsh ${HOME}/.zsh/antidote ${HOME}/.zprofile ${HOME}/.zsh/zsh_plugins.txt"
 custom() {
 	git submodule update --init
 }
