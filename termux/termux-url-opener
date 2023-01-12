@@ -1,1 +1,1 @@
-youtube-dl $1
+yt-dlp -P ~/storage/downloads/youtube $1
