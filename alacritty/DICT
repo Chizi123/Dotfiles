@@ -1,0 +1,2 @@
+FILES="alacritty.yml"
+LOCATIONS="${HOME}/.alacritty.yml"
