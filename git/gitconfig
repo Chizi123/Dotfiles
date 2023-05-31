@@ -4,4 +4,6 @@
 	name = Joel Grunbaum
 	email = joelgrun@gmail.com
 [pull]
-	rebase = false
+	rebase = true
+[iniit]
+	defaultBranch = main
