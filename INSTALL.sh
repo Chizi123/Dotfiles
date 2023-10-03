@@ -10,7 +10,7 @@ install_conflict() {
     fi
     while true; do
         CHOICE="overwrite"
-        if [ -e "$loc" ] && [ "$FORCE" = "0" ]; then
+        if [ -e "$loc" ] && [ "$FORCE" = "0" ] && [ $(diff "$loc" "$file") ]; then
             echo "WARNING: \"$loc\" exists, (overwrite, change, nothing): "
             read CHOICE
         fi
