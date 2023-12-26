@@ -1,5 +1,38 @@
+# Set bash history size
+export HISTSIZE=10000
+export HISTCONTROL=erasedups
+shopt -s histappend
+
 # Prompt, no colours to differentiate it from zsh
-PS1="[\u@\h \W]\$ "
+parse_git_repo() {
+    git remote -v 2>/dev/null | sed -z 's/.*\/\(.*\)\.git.*/\1/g;'
+}
+
+parse_git_branch() {
+    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+parse_git_tag() {
+    git describe --tags 2>/dev/null
+}
+
+git_prompt() {
+    local ret="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+    if [ -z $ret ]; then
+        return
+    fi
+    local OUT="$(parse_git_branch)"
+    if [ "$OUT" == " (no branch)" ]; then
+        OUT="($(parse_git_tag))"
+    fi
+    if [ -n "$OUT" ]; then
+        OUT=" ($(parse_git_repo):$OUT)"
+    fi
+    echo "$OUT"
+}
+
+# PS1="[\u@\h \W]\$ "
+PS1="[\u@\h\$(git_prompt) \W]\$ "
 PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
 
 # Common completions
