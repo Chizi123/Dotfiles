@@ -1,2 +1,2 @@
-FILES="alacritty.yml"
-LOCATIONS="${HOME}/.alacritty.yml"
+FILES="alacritty.toml"
+LOCATIONS="${HOME}/.alacritty.toml"
