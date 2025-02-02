@@ -1,0 +1,3 @@
+DEPS="nixos"
+SUDO_FILES="hardware-configuration.nix"
+SUDO_LOCATIONS="/etc/nixos/hardware-configuration.nix"
