@@ -2,6 +2,7 @@
 	path = emacs/emacs.d
 	url = https://github.com/Chizi123/.emacs.d.git
 	branch = main
+	ignore = all
 [submodule "zsh/antidote"]
 	path = zsh/antidote
 	url = https://github.com/mattmc3/antidote.git
