@@ -14,8 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.forceImportRoot = false;
+  boot.supportedFilesystems = [ "bcachefs" ];
   networking.hostId = "31f59926";
 
   networking.hostName = "wipi"; # Define your hostname.
@@ -77,7 +76,6 @@
     neofetch
     git
     gnumake
-    zfs
     tmux
     htop
   ];
@@ -122,6 +120,26 @@
     enableCompletion = true;
     #autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+  };
+
+  services.home-assistant = {
+     enable = true;
+     extraComponents = [
+      # Components required to complete the onboarding
+      "analytics"
+      "google_translate"
+      "met"
+      "radio_browser"
+      "shopping_list"
+      # Recommended for fast zlib compression
+      # https://www.home-assistant.io/integrations/isal
+      "isal"
+    ];
+    config = {
+      # Includes dependencies for a basic setup
+      # https://www.home-assistant.io/integrations/default_config/
+      default_config = {};
+    };
   };
 
   # Open ports in the firewall.

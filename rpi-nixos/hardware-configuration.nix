@@ -25,12 +25,11 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  boot.zfs.extraPools = [ "pool" ];
-
-#  fileSystems."/var/lib/docker" = 
-#    { device = "/pool/docker/var";
-#      options = [ "bind" ];
-#    };
+  fileSystems."/pool" =
+     { device = "/dev/disk/by-uuid/8c98df84-c85c-401b-8d44-4cec5a87fd82";
+       fsType = "bcachefs";
+       options = [ "compression=zstd" ];
+     };
 
   swapDevices = [ ];
 
@@ -39,11 +38,6 @@
       enable = true;
       interval = "weekly";
     };
-  };
-
-  services.zfs = {
-    autoScrub.enable = true;
-    trim.enable = true;
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

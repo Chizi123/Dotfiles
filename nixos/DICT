@@ -1,2 +1,2 @@
-SUDO_FILES="configuration.nix"
-SUDO_LOCATIONS="/etc/nixos/configuration.nix"
+#SUDO_FILES="configuration.nix"
+#SUDO_LOCATIONS="/etc/nixos/configuration.nix"
