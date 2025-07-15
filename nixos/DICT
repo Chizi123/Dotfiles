@@ -1,2 +1,8 @@
-#SUDO_FILES="configuration.nix"
-#SUDO_LOCATIONS="/etc/nixos/configuration.nix"
+# Install all local nix files with wildcard
+# Enable desired ones in system's configuration.nix
+
+custom () {
+    for i in *.nix; do
+        install_conflict $i /etc/nixos/$i 1
+    done
+}
