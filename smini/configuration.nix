@@ -15,6 +15,7 @@
       ../nixos/btrfs.nix
       ../nixos/nginx.nix
       ../nixos/home-assistant.nix
+      ../nixos/neovim.nix
     ];
 
   # Bootloader.
