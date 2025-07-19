@@ -12,6 +12,8 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "zfs" ];
+  networking.hostId = "81fdcc33";
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/c5820e22-2f08-461e-8003-1e99d0e783e9";
@@ -24,6 +26,15 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+
+  boot.zfs = {
+    forceImportRoot = false;
+    extraPools = [ "pool" ];
+  };
+  services.zfs = {
+    autoScrub.enable = true;
+    trim.enable = true;
+  };
 
   swapDevices = [ ];
 

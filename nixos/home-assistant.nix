@@ -35,6 +35,7 @@ in
       "braviatv"
       "roku"
       "unifi"
+      "generic_thermostat"
     ];
     config = {
       # Includes dependencies for a basic setup
