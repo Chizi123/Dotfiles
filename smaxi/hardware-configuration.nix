@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "nfs" ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e00faf82-ced3-4095-9070-be1137bce8ae";
@@ -23,6 +24,11 @@
     { device = "/dev/disk/by-uuid/7FDC-3833";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+  fileSystems."/pool" = 
+    { device = "smini:/pool";
+      fsType = "nfs";
     };
 
   swapDevices = [ ];
