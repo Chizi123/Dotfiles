@@ -3,8 +3,8 @@ FILES="bashrc profile"
 LOCATIONS="${HOME}/.bashrc ${HOME}/.bash_profile"
 
 custom() {
-git submodule update --init
-cd ble.sh
-make
-ln -s "$(pwd)/out/ble.sh" "${HOME}/.ble.sh"
+    git submodule update --init
+    cd ble.sh
+    make
+    ln -sf "$DOTFILES_PATH/bash/ble.sh/out/ble.sh" "${HOME}/.ble.sh"
 }

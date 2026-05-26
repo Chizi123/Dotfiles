@@ -5,7 +5,7 @@ shopt -s histappend
 
 # Prompt, no colours to differentiate it from zsh
 parse_git_repo() {
-    git remote -v 2>/dev/null | sed -z 's/.*\/\(.*\)\.git.*/\1/g;'
+    git remote -v 2>/dev/null | sed -n '1s/.*\/\(.*\)\.git.*/\1/p'
 }
 
 parse_git_branch() {
@@ -18,7 +18,7 @@ parse_git_tag() {
 
 git_prompt() {
     local ret="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-    if [ -z $ret ]; then
+    if [ -z "$ret" ]; then
         return
     fi
     local OUT="$(parse_git_branch)"
@@ -33,7 +33,7 @@ git_prompt() {
 
 # PS1="[\u@\h \W]\$ "
 PS1="[\u@\h\$(git_prompt) \W]\$ "
-PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'history -a; printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
 
 # Common completions
 source ~/.commonshell

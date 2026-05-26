@@ -13,8 +13,9 @@ else
 fi
 alias l="ls -laF"
 alias grep="grep --color=always"
+alias diff="diff --color=auto"
 alias less='less -r'
-function stats() {
+stats() {
 	find ${1:-'.'} -type f -print | sed -E -n 's/.+(\..*)$/\1/pi' | sort | uniq -c | sort -g
 }
 
@@ -22,24 +23,32 @@ alias pip-upgrade="pip --disable-pip-version-check list --outdated --format=json
 
 #export EDITOR="/usr/bin/emacsclient -nw -a /usr/bin/vim"
 #alias ec=$EDITOR
-alias ec="/usr/bin/emacsclient -nw -a $(which vim)"
-[ -n "$(which vim)" ] && export EDITOR="$(which vim)"
+alias ec="/usr/bin/emacsclient -nw -a $(command -v vim)"
+command -v vim >/dev/null 2>&1 && export EDITOR="$(command -v vim)"
 
 #default wine prefix
-[ -n "$(whereis wine)" ] && export WINEPREFIX=$HOME/.wine/Games/
-[ -n "$(whereis steam)" ] && export STEAM_COMPAT_DATA_PATH=$HOME/proton
+command -v wine >/dev/null 2>&1 && export WINEPREFIX=$HOME/.wine/Games/
+command -v steam >/dev/null 2>&1 && export STEAM_COMPAT_DATA_PATH=$HOME/proton
 
 # add to path
 export PATH=$PATH:~/.local/bin
-[ -r /usr/bin/ruby ] && PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
+command -v ruby >/dev/null 2>&1 && PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
 [ -d ~/.cargo ] && PATH="$PATH:$HOME/.cargo/bin"
 
 # acme.sh
 [ -f "${HOME}/.acme.sh/acme.sh.env" ] && source ~/.acme.sh/acme.sh.env
 
 # Firefox wayland
-[ "$XDG_SESSION_TYPE" = "wayland" ] && export MOZ_ENABLE_WAYLAND=1
+[ "${XDG_SESSION_TYPE:-}" = "wayland" ] && export MOZ_ENABLE_WAYLAND=1
 
-# Update dotfiles
-(git -C ~/.dotfiles pull &) &>/dev/null
-[ -d ~/.emacs.d ] && (git -C ~/.emacs.d pull &) &>/dev/null
+# Update dotfiles (at most once per day, fast-forward only)
+dotfiles_cache="${XDG_CACHE_HOME:-$HOME/.cache}"
+for repo in "$HOME/.dotfiles" "$HOME/.emacs.d"; do
+    [ -d "$repo" ] || continue
+    marker="$dotfiles_cache/$(basename "$repo")-updated"
+    if [ ! -f "$marker" ] || find "$marker" -mtime +1 | grep -q .; then
+        touch "$marker"
+        (git -C "$repo" pull --ff-only --quiet &) &>/dev/null
+    fi
+done
+unset dotfiles_cache marker

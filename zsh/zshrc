@@ -9,19 +9,13 @@ fi
 #autoload -U colors && colors	# Load colors
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%1~%{$fg[red]%}]%(?:%{$fg[white]%}$:%{$fs_bold[red]%}<%?>$)%{$reset_color%}%b "
 
-# Git prompt
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-RPROMPT=\$vcs_info_msg_0_
-zstyle ':vcs_info:git:*' formats "%F{240}git:(%b)"
-zstyle ':vcs_info:*' enable git
-
 # History files
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+setopt inc_append_history share_history
+setopt hist_ignore_dups hist_ignore_space hist_reduce_blanks
+setopt hist_verify hist_expire_dups_first
 
 # ZSH options
 setopt autocd extendedglob correct_all # Automatically cd without cd and expand globs
@@ -39,8 +33,12 @@ source ~/.commonshell
 bindkey '^[[3~' delete-char
 bindkey '^[3;5~' delete-char
 
-# Disable ctrl-s to freeze terminal
-stty stop undef
+# Ctrl+left/right to skip words
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
+# Disable ctrl-s to freeze terminal (only in interactive shells)
+[ -t 0 ] && stty -ixon
 
 # Set terminal title
 precmd() {print -Pn "\e]0;%n@%M:%~\a"}
@@ -79,6 +77,15 @@ if [ -f ~/.zsh/antidote/antidote.zsh ]; then
     autoload -Uz $antidote_dir/functions/antidote
     source $static_file
     unset antidote_dir plugins_txt static_file
+fi
+
+# History substring search: type a prefix then ↑/↓ to search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# fzf-tab: fuzzy completion, only if fzf is installed
+if command -v fzf >/dev/null 2>&1; then
+    zstyle ':fzf-tab:*' fzf-bindings 'ctrl-j:accept'
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
