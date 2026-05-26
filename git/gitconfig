@@ -5,5 +5,5 @@
 	email = joelgrun@gmail.com
 [pull]
 	rebase = true
-[iniit]
+[init]
 	defaultBranch = main
