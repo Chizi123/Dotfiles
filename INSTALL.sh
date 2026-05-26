@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 install_conflict() {
     file="$1";
@@ -10,19 +11,19 @@ install_conflict() {
     fi
     while true; do
         CHOICE="overwrite"
-        if [ -e "$loc" ] && [ "$FORCE" = "0" ] && [ $(diff "$loc" "$file") ]; then
+        if [ -e "$loc" ] && [ "$FORCE" = "0" ] && ! diff -q "$loc" "$file" >/dev/null 2>&1; then
             echo "WARNING: \"$loc\" exists, (overwrite, change, nothing): "
-            read CHOICE
+            read -r CHOICE
         fi
         case "$CHOICE" in
             o|overwrite)
 	            dir=$(dirname "$loc")
 	            $SUPERUSER mkdir -p "$dir"
-	            $SUPERUSER ln -sf "$(pwd)/$file" "$loc"; break;;
+	            $SUPERUSER ln -sf "$DOTFILES_PATH/$file" "$loc"; break;;
             c|change)
                 tmpfile=$(mktemp)
                 echo "$loc" >> "$tmpfile"
-                $EDITOR "$tmpfile"
+                "${EDITOR:-vi}" "$tmpfile"
                 loc=$(cat "$tmpfile")
                 rm "$tmpfile"
                 unset tmpfile;;
@@ -30,7 +31,7 @@ install_conflict() {
                 break;;
             *)
                 echo "INVALID CHOICE \"$CHOICE\", (overwrite, change, nothing)"
-                read CHOICE
+                read -r CHOICE
         esac
     done
 
@@ -52,7 +53,7 @@ install_links() {
             install_conflict "$file" "$loc" 1
 	    done
     fi
-    if type custom 2>/dev/null | grep -q "function" ; then
+    if command -v custom >/dev/null 2>&1; then
 	    custom install
     fi
 }
@@ -62,10 +63,10 @@ remove_links() {
     if [ -n "$FILES" ]; then
 	for i in $(seq 1 "$(echo "$FILES" | wc -w)"); do
 	    loc=$(echo "$LOCATIONS" | cut -d' ' -f "$i")
-	    rm "$loc" 2>/dev/null
+	    rm -f "$loc" 2>/dev/null || true
 	    loc=$(dirname "$loc")
 	    while [ -z "$(ls -A "$loc")" ]; do
-		rm -r "$loc"
+		rm -rf "$loc" 2>/dev/null || true
 		loc=$(dirname "$loc")
 	    done 2>/dev/null
 	done
@@ -73,35 +74,34 @@ remove_links() {
     if [ -n "$SUDO_FILES" ]; then
 	for i in $(seq 1 "$(echo "$SUDO_FILES" | wc -w)"); do
 	    loc=$(echo "$SUDO_LOCATIONS" | cut -d' ' -f "$i")
-	    sudo rm "$loc" 2>/dev/null
+	    sudo rm -f "$loc" 2>/dev/null || true
 	    loc=$(echo "$loc" | rev | cut -d'/' -f2- | rev)
 	    while [ -z "$(ls -A "$loc")" ]; do
-		sudo rm -r "$loc"
+		sudo rm -rf "$loc" 2>/dev/null || true
 		loc=$(echo "$loc" | rev | cut -d'/' -f2- | rev)
 	    done 2>/dev/null
 	done
     fi
-    if type custom | grep -q "function"; then
+    if command -v custom >/dev/null 2>&1; then
 	    custom remove
     fi
 }
 
 handle_package() {
     if [ -d "$1" ]; then
-	unset DEPS
-	eval "$(grep "DEPS=" "$1/DICT")"
+	. "$1/DICT"
     if ! [ "$INSTALL" = "0" ] && [ "$REMOVE_DEPS" = "0" ]; then
-	    for i in $DEPS; do
-            if ! grep -q "$i" "$PACKAGE_CACHE"; then
-	            (handle_package "$i")
+	    for dep in $DEPS; do
+            if ! grep -q "$dep" "$PACKAGE_CACHE"; then
+	            (handle_package "$dep")
             fi
 	    done
     fi
     echo "$1"
     echo "$1" >> "$PACKAGE_CACHE"
-	(cd "$1" || exit; "$([ "$INSTALL" = "1" ] && echo install || echo remove)_links")
+	(cd "$1" && "${action}_links")
     else
-	echo "No configuration found for $i"
+	echo "No configuration found for $1"
     fi
 }
 
@@ -119,12 +119,14 @@ EOF
 }
 
 INSTALL=1
+action=install
 FORCE=0
 REMOVE_DEPS=0
 PACKAGE_CACHE="$(mktemp)"
-DOTFILES_PATH="$(dirname "$0")"
+trap 'rm -f "$PACKAGE_CACHE"' EXIT INT TERM HUP
+DOTFILES_PATH="$(cd "$(dirname "$0")" && pwd)"
 
-cd "$DOTFILES_PATH" || exit
+cd "$DOTFILES_PATH"
 
 if [ -z "$1" ]; then
     usage
@@ -134,12 +136,12 @@ fi
 while [ -n "$1" ]; do
       case "$1" in
 	  -h|--help|"") usage; exit;;
-	  -i|--install) INSTALL=1; FORCE=0;;
+	  -i|--install) INSTALL=1; action=install; FORCE=0;;
       -f|--force) FORCE=1;;
-      -if|-fi) INSTALL=1; FORCE=1;;
-	  -r|--remove) INSTALL=0; REMOVE_DEPS=0;;
+      -if|-fi) INSTALL=1; action=install; FORCE=1;;
+	  -r|--remove) INSTALL=0; action=remove; REMOVE_DEPS=0;;
       -d|--deps) REMOVE_DEPS=1;;
-      -rd|-dr) INSTALL=0; REMOVE_DEPS=1;;
+      -rd|-dr) INSTALL=0; action=remove; REMOVE_DEPS=1;;
 	  --) shift; break;;
 	  -*) echo "Invalid argument"; usage; exit;;
 	  *) handle_package "$1";; # "$([ \"$INSTALL\" = \"1\" ] && echo install || echo remove)_links";;
@@ -151,4 +153,4 @@ while [ -n "$1" ]; do
     handle_package "$1"
 done
 
-rm "$PACKAGE_CACHE"
+
