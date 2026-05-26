@@ -1,9 +1,0 @@
-# Install all local nix files with wildcard
-# Enable desired ones in system's configuration.nix
-
-custom () {
-    return
-    for i in *.nix; do
-        install_conflict $i /etc/nixos/$i 1
-    done
-}
